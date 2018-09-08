@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework import routers
+
+# local import
+from crudapp.views import  DocumentedApiView, SkuModelView, \
+    NotificationModelView, AvailableSkuModelView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+# API urls
+router = DocumentedApiView()
+router.register(r'sku', SkuModelView, base_name='sku')
+router.register(r'available_sku', AvailableSkuModelView, base_name='available_sku')
+router.register(r'notification', NotificationModelView, base_name='notification')
+urlpatterns += router.urls
