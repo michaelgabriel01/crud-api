@@ -10,7 +10,7 @@ from . import models
 class SkuSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SkuModel
-        fields = ('type', 'sku_id') #'__all__'
+        fields = '__all__'
 
 
 # available sku serializer class
