@@ -18,8 +18,8 @@ from django.urls import path
 from rest_framework import routers
 
 # local import
-from crudapp.views import  DocumentedApiView, SkuModelView, \
-    NotificationModelView, AvailableSkuModelView
+from crudapp.views import  DocumentedApiView, SkuModelView,\
+    AvailableSkuModelView, NotificationModelView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
