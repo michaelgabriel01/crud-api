@@ -11,21 +11,27 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+from django.contrib import  admin
+from prettyconf import Configuration
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+config = Configuration(starting_path=BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x4wtmmb#t)no145eeyx7_@=r)1f3_)ylg==+ag1wpi)bf1!1n*'
+SECRET_KEY = config('SECRET_KEY') #'x4wtmmb#t)no145eeyx7_@=r)1f3_)ylg==+ag1wpi)bf1!1n*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=config.boolean)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=config.list)
+
+admin.site.title = config('PROJECT_NAME')
+admin.site.header = config('PROJECT_NAME')
 
 
 # Application definition
