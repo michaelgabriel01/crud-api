@@ -41,4 +41,4 @@ def get_notification_view(request):
         get_update = models.NotificationModel.get_notification()
     except models.NotificationModel.DoesNotExist:
         raise ("Notification does not exist")
-    return render(request, '/home/michael/Desktop/Bot/epicom-api/crud-api/api/crudapp/templates/notification_file.html', {'notification': get_update})
+    return render(request, 'notification_file.html', {'notification': get_update})
