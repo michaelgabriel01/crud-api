@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework import viewsets, routers
 from . import serializers
 from . import models
@@ -35,3 +35,10 @@ class NotificationModelView(viewsets.ModelViewSet):
     queryset = models.NotificationModel.objects.all()
     serializer_class = serializers.NotificationSerializer
     # permission_classes = ()
+
+def get_notification_view(request):
+    try:
+        get_update = models.NotificationModel.get_notification()
+    except models.NotificationModel.DoesNotExist:
+        raise ("Notification does not exist")
+    return render(request, '/home/michael/Desktop/Bot/epicom-api/crud-api/api/crudapp/templates/notification_file.html', {'notification': get_update})
