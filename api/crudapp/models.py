@@ -8,6 +8,7 @@ class SkuModel(models.Model):
     product_name = models.CharField(max_length=30)
     product_id = models.CharField(max_length=10)
     sku_id = models.CharField(max_length=10)
+    created_date = models.DateTimeField(auto_now_add=True)
     sent_date = models.DateTimeField()
 
     def __str__(self, *args, **kwargs):
@@ -43,7 +44,7 @@ class NotificationModel(models.Model):
         auth = (access_key, token)
         respones = requests.get(api_url, auth=auth)
         r = respones.text
-        file = open('/home/michael/Desktop/Bot/epicom-api/crud-api/api/crudapp/templates/notification_file.html', 'w')
+        file = open('notification_file.html', 'w')
         file.write(r)
         file.close()
         return file
