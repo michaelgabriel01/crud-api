@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rest_framework import routers
 
 # local import
 from crudapp.views import  DocumentedApiView, SkuModelView,\
-    AvailableSkuModelView, NotificationModelView
+    AvailableSkuModelView, NotificationModelView, get_notification_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('not/', get_notification_view, name='not'),
 ]
 
 # API urls
