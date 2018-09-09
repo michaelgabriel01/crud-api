@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Epicom REST API</title>
+    
+</head>
+<body>
+    
+<link rel="icon" href="https://s3-us-west-2.amazonaws.com/epicomapidoc/favicon.ico" type="image/x-icon">
+<link type="text/css" href="/v1/Areas/HelpPage/HelpPage.css?q=20160818" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<i class="fa fa-cogs" aria-hidden="true"></i>
+<header class="help-page">
+    <div class="content-wrapper">
+        <h1><img src="https://s3-us-west-2.amazonaws.com/epicomapidoc/logo-epicom.png" alt="Epicom" class="logo" /></h1>
+        <div class="float-left">
+            <h1>Epicom REST API</h1>
+        </div>
+    </div>
+</header>
+<section id="body" class="help-page">
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Introdução</h2>
+            <p>
+                Nossa API permite que fornecedores e canais de vendas se conectem a nossa plataforma, podendo assim vender e fornecer produtos dentro ecossistema da Epicom.
+            </p>
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Conceitos importantes</h2>
+            <p>
+                Fornecedor: Parceiro que vende produtos na plataforma da Epicom.
+            </p>
+            <p>
+                Canal de Vendas: Parceiro que vende produtos da plataforma da Epicom.
+            </p>
+            <p>
+                Produto: Item do catálogo do fornecedor que é disponibilizado para venda nos canais.
+            </p>
+            <p>
+                Sku: Variação do produto. Um exemplo de uma variação de uma camisa seria uma camisa - amarela - p. Caso não haja nenhuma variação para o produto existirá somente um sku associado.
+            </p>
+        </div>
+    </section>
+    <a name="catalogoprodutos"></a>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Gestão do Catálogo de Produtos</h2>
+            <p>
+                Uma vez que o fornecedor tem seu catálofgo de produtos integrado a Epicom sempre que houver uma alteração em algum item do catálogo nossa plataforma faz toda a gestão dessas alterações junto aos canais de venda mantendo as informções sobre as ofertas sempre atualizadas.
+            </p>
+            <div class="m-auto"><img src="https://s3-us-west-2.amazonaws.com/epicomapidoc/fluxo_produto.png" alt="fluxo_produto" /></div>
+        </div>
+    </section>
+
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Pedidos</h2>
+            <p>
+                Nossa plataforma faz toda a gestão de pedidos desde a reserva no canal de venda até as informações de despacho e entrega no fornecedor. Esse gestão é feita com base nas seguintes etapas:
+            </p>
+            <p>
+                <h4>Realização de pedido no canal de vendas</h4> O pedido é rerealizado no canal de vendas que faz a reserva de pedidos junto a Epicom.
+            </p>
+            <p>
+                <h4>Reserva de pedidos junto aos fornecedores</h4> A reserva dos iterns do pedidos é feita junto a cada fornecedor pela Epicom. Nesse momento os fornecedores resrvam o estoque para o pedido.
+            </p>
+            <p>
+                <h4>Confirmação do pedido pelo canal de vendas</h4>o canal de vendas confirma o pedido junto a epicom. A conformação geralmente é feita mediante a confirmação do pagamento.
+            </p>
+            <p>
+                <h4>Aprovação do pedido pelo fornecedor</h4>Uma vez o pedido aprovado pelo canal de vendas a Epicom aprova os peidos junto aos fornecedores. Nesse momento o fornecedor pode aprovar ou recusar o pedido. A poítica de aprovação fica a critério de cada fornecedor.
+            </p>
+            <p>
+                <h4>Despacho do pedido</h4> Uma vez que as entregas referentes ao pedido forem despachadadas para serem entregues notificamos ao canal de vendas o evento junto com as informações.<br /><br />
+                Uma execção a isso são clientes que vendem no Mercado Livre utilizando me2. Nesse caso fazemos o caminho inverso notificando aos fornecedores.
+            </p>
+            <p>
+                <h4>Entrega do pedido</h4> A medida que entregas referentes ao pedido forem entregues notificamos ao canal de vendas o evento junto com as informações.<br /><br />                
+                Uma execção a isso são clientes que vendem no Mercado Livre utilizando me2. Nesse caso fazemos o caminho inverso notificando aos fornecedores.                   
+            </p>            
+            <p>
+                <h4>Cancelamento do pedido</h4> Uma vez que as entregas referentes ao pedido forem despachadadas para serem entregues notificamos ao canal de vendas o evento junto com as informações.<br /><br />
+                Uma execção a isso são clientes que vendem no Mercado Livre utilizando me2. Nesse caso fazemos o caminho inverso notificando aos fornecedores.
+            </p>
+
+            <div class="m-auto"><img src="https://s3-us-west-2.amazonaws.com/epicomapidoc/fluxo_pedido.png" alt="fluxo_pedido" /></div>
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Autenticação</h2>
+            <p>
+                Nossa API utiliza o padrão <a href="https://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank">“HTTP Basic Authentication” W3C</a>, que consiste em usar o cabeçalho <em>Authorization</em> com um valor no formato <em>Basic chave:token</em>, onde <em>chave:valor</em> deve ser codificado em base64.
+            </p>
+            <p>
+                Tanto a <strong>chave </strong> quanto o <strong>token</strong> de acesso para sua conta estão disponíveis no painel do parceiro.
+            </p>
+            <p>
+                <strong>Importante: </strong>O cabeçalho de autenticação deve ser informado em todas as requisições enviadas para a API.
+            </p>
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Paginação</h2>
+            <p>
+                A API MHub utiliza paginação para requisições que retornam uma lista de resultados. Para retornar os registros da página desejada, você pode combinar os parâmetros <i>offset</i> e <i>limit</i>.
+                A resposta da requisição incluirá os headers <i>X-Total-Count</i> e <i>Link</i> com informações sobre a paginação.
+            </p>
+            <h4>Offset</h4>
+            <p>
+                Você pode informar o índice do primeiro registro da página desejada através do parâmetro <b>?offset</b>. Por exemplo, para obter a segunda página considerando páginas de tamanho 10: <i>?offset=10&limit=10</i>
+                <br><strong>Importante: </strong> o parâmetro offset é <i>zero-based</i>
+            </p>
+            <h4>Limit</h4>
+            <p>
+                O tamanho padrão de página é 30, mas você pode configurar o tamanho desejado através do parâmetro
+                <b>?limit</b>, podendo solicitar no máximo 100 registros por página. Por exemplo: https://sandboxmhubapi.epicom.com.br/v1/fornecedor/pedidos?limit=50
+            </p>
+            <h4>Headers de Resposta</h4>
+            <p>
+                As informações de paginação são incluídas no <i>Header</i> de resposta. O total de registros que satisfazem a requisição está contido no header <em>X-Total-Count</em> e os links para páginas
+                relacionadas estão no header <em>Link</em>. Por exemplo:
+            </p>
+            <p>
+                X-Total-Count: 61
+                <br>Link: &lt;https://sandboxmhubapi.epicom.com.br/v1/fornecedor/pedidos?offset=0&limit=10>; rel=first,
+                <br> &lt;https://sandboxmhubapi.epicom.com.br/v1/fornecedor/pedidos?offset=10&limit=10>; rel=previous,
+                <br> &lt;https://sandboxmhubapi.epicom.com.br/v1/fornecedor/pedidos?offset=30&limit=10>; rel=next,
+                <br> &lt;https://sandboxmhubapi.epicom.com.br/v1/fornecedor/pedidos?offset=60&limit=10>; rel=last
+                <br><br>
+                O header Link poderá conter um ou mais links de relação com outras páginas. Recomendamos que utilize estes links de response para navegar pelas páginas, ao invés de construí-los manualmente.
+            </p>
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Respostas</h2>
+            <p>A MHub Api utiliza o HTTP status code para a resposta de toda requisição.</p>
+            <table class="help-page-table">
+                <thead>
+                    <tr><th>Código</th><th>Descrição</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="api-name">200</td>
+                        <td class="api-documentation">
+                            <p>Sucesso!</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="api-name">400</td>
+                        <td class="api-documentation">
+                            <p>Requisição inválida ou não pôde ser entregue. Nesse caso será enviada na resposta detalhes sobre o problema.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="api-name">401</td>
+                        <td class="api-documentation">
+                            <p>Erro na autenticação das credenciais utilizadas.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="api-name">403</td>
+                        <td class="api-documentation">
+                            <p>Permissão negada ao endpoint.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="api-name">404</td>
+                        <td class="api-documentation">
+                            <p>A URL solicitada ou o recurso não existe.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="api-name">409</td>
+                        <td class="api-documentation">
+                            <p>O recurso que está sendo criado já existe.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="api-name">500</td>
+                        <td class="api-documentation">
+                            <p>Erro interno. Por favor notifique <a href="mailto:integracao@epicom.com.br">integracao@epicom.com.br</a> sobre o problema.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Resposta com campos filtrados</h2>
+            <p>
+                A API MHub responde por padrão a representação completa do recurso referente à requisição. Mas, você pode informar à API quais desses campos deseja que ela inclua na resposta para uma melhor performance na comunicação desses dados, por exemplo. Para retornar somente os campos que deseja, você pode informar o parâmetro <i>fields</i>.
+            </p>
+            <p>
+                O parâmetro <i>fields</i> pode ser utilizado em qualquer requisição GET, seja a resposta dessa requisição um recurso ou uma lista de recursos.
+            </p>
+            <h3>Exemplos</h3>
+            <p>
+            <p><b>Requisição sem o parâmetro:</b></p>
+            <div>
+                <div>https://sandboxmhubapi.epicom.com.br/v1/fornecedor/produtos/COD123</div>
+                <div class="sample-content" style="padding:0px">
+                    <pre class="wrapped">{
+    "nome": "Nome do Produto - Modelo",
+    "nomeReduzido": "Nome do Produto",
+    "codigo": "COD123",
+    "descricao": "Descrição do Produto",
+    "codigoCategoria": "1234",
+    "codigoMarca": "Marca",
+    "palavrasChave": "promoção de produto, produto em promoção",
+    "grupos": [
+        {
+            "id": 1,
+            "nome": "Características",
+            "atributos": [
+                {
+                    "nome": "Cor",
+                    "valor": "Azul"
+                },
+                {
+                    "nome": "Tamanho",
+                    "valor": "G"
+                }
+            ]
+        }
+    ]
+}</pre>
+                </div>
+            </div>
+            <p><b>Requisição com o parâmetro:</b></p>
+            <div>
+                <div>https://sandboxmhubapi.epicom.com.br/v1/fornecedor/produtos/COD123?fields=codigo,nome</div>
+                <div class="sample-content" style="padding:0px">
+                    <pre class="wrapped">{
+    "nome": "Nome do Produto - Modelo",
+    "codigo": "COD123"
+}</pre>
+                </div>
+            </div>
+            <h3>Formato do parâmetro <i>fields</i></h3>
+            <p>O parâmetro <i>fields</i> suporta o seguinte formato:</p>
+            <p>
+                <ul>
+                    <li>Use vírgula para separar vários campos. Ex. "?fields=codigo,nome"</li>
+                    <li>
+                        Use parênteses para definir sub-campos. Ex. "?fields=codigo,nome,grupos(id,nome)"
+                        <br>
+                        O uso de parênteses também pode ser aplicado a sub-campos de sub-campos. Ex "?fields=codigo,nome,grupos(id,nome,atributos(nome))"
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper main-content clear-fix">
+            <h2>Notificações</h2>
+            <p>
+                A nossa plataforma fornece um mecanismo de notificações que possibilita aos canais de vendas fazer a gestão de suas ofertas e o tracking dos pedidos. Através desse mecanismo notificamos nossos parceiros sobre alterações no catálogo de produtos e pedidos.
+
+            </p>
+            <p>
+                Esse mecanismo funciona de uma forma bem simples, onde enviamos uma requisição POST para uma URL em uma conexão segura (https) no seguinte formato:
+            </p>
+
+            <div>
+                <h4 class="sample-header">application/json, text/json</h4>
+                <div class="sample-content">
+                    <pre class="wrapped">{
+    "tipo": "tipo_notificacao",
+    "dataEnvio": "2015-07-14T13:56:36",
+    "parametros": {
+            "parametro1" : "valor parametro1",
+            "parametro2" : "valor parametro2"
+    }
+}
+</pre>
+                </div>
+            </div>
+            <p>
+                Temos uma política de retentivas onde caso o canal de venda não responda um status code 200 retentamos 6 vezes de 10 em 10 minutos.
+            </p>
+            <p>
+                Caso o parceiro deseje validar se a requisição está vindo da nossa plataforma enviamos um header com um código único do parceiro.
+            </p>
+
+        </div>
+    </section>
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Ambientes</h2>
+            <p>
+                A Epicom disponibiliza aos desenvolvedores um ambiente totalmente dedicado a testes, o Sandbox.
+                Caso você ainda não tenha acesso ao Sandbox ele pode ser solicitado através de <a href="mailto:integracao@epicom.com.br">integracao@epicom.com.br</a>.
+                Ao utilizar o Sandbox em suas integrações você deverá utilizar a seguinte URL: https://sandboxmhubapi.epicom.com.br/v1
+            </p>
+            <p>
+                Cada ambiente possui a sua própria base de dados assim você não precisa se preocupar com transações de teste em seu ambiente de produção.
+                Para que você tenha acesso à sua URL de produção será necessária homologação prévia da sua integração.
+            </p>
+            <p>
+                Fique atento às suas credenciais de autenticação pois cada ambiente possui suas próprias credenciais.
+            </p>
+        </div>
+    </section>
+
+    <section class="featured">
+        <div class="content-wrapper">
+            <section class="featured">
+                <div class="content-wrapper">
+                    <h2>Integração para Fornecedores</h2>
+                    <p>
+                        <span class="f-16"><strong> <a href="/v1/ApisFornecedor">Clique aqui</a></strong></span> para a documentação completa.
+                    </p>
+                </div>
+            </section>
+            <section class="featured">
+                <div class="content-wrapper">
+                    <h2>Integração para Canais de Vendas</h2>
+                    <p>
+                        <span class="f-16"><strong><a href="/v1/ApisMarketPlace">Clique aqui</a></strong></span> para a documentação completa.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </section>
+</section>
+</body>
+</html>
